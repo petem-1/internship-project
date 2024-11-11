@@ -20,6 +20,7 @@ class Page:
 
     def click(self, *locator):
         self.driver.find_element(*locator).click()
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(locator))
 
     def input_text(self, text, *locator):
         self.driver.find_element(*locator).send_keys(text)
