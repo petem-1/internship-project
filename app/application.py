@@ -9,4 +9,4 @@ class Application:
         self.page = Page(driver)
         self.main_page = MainPage(driver)
         self.reely_login_page = ReellyLoginPage(driver)
-        # self.reely_filter_page = ReellyFilterPage(driver)
+        self.reely_filter_page = ReellyFilterPage(driver)

@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 class ReellyLoginPage(Page):
     EMAIL_FIELD = (By.ID, 'email-2')
     PASSWORD = (By.ID, 'field')
-    LOGIN = (By.CSS_SELECTOR, "login-button w-button")
+    LOGIN = (By.CSS_SELECTOR, ".login-button.w-button")
 
 
     def login_reelly(self):
