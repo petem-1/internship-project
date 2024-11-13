@@ -2,7 +2,6 @@ from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
-
 class Page:
 
     def __init__(self, driver):
@@ -19,36 +18,36 @@ class Page:
         return self.driver.find_elements(*locator)
 
     def click(self, *locator):
-        self.driver.find_element(*locator).click()
-        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(locator))
+        # Wait until the element is clickable before clicking
+        self.wait.until(EC.element_to_be_clickable(locator)).click()
 
     def input_text(self, text, *locator):
-        self.driver.find_element(*locator).send_keys(text)
+        self.find_element(*locator).send_keys(text)
 
     def verify_text(self, expected_text, *locator):
         actual_text = self.find_element(*locator).text
-        assert actual_text == expected_text, f'Expected {expected_text} did not match actual {actual_text}'
+        assert actual_text == expected_text, f'Expected "{expected_text}" did not match actual "{actual_text}"'
 
     def verify_partial_text(self, expected_text, *locator):
         actual_text = self.find_element(*locator).text
-        assert expected_text in actual_text, f'Expected {expected_text} not shown in actual {actual_text}'
+        assert expected_text in actual_text, f'Expected "{expected_text}" not shown in actual "{actual_text}"'
 
     def wait_to_be_clickable(self, *locator):
         self.wait.until(EC.element_to_be_clickable(locator),
-            message=f'Element by {locator} not clickable')
+                        message=f'Element by {locator} not clickable')
 
     def wait_to_be_clickable_click(self, *locator):
+        # Combines waiting for clickable and clicking in one step
         self.wait.until(EC.element_to_be_clickable(locator),
-            message=f'Element by {locator} not clickable').click()
+                        message=f'Element by {locator} not clickable').click()
 
     def wait_for_element_to_appear(self, *locator):
-        self.wait.until(
-            EC.visibility_of_element_located(locator),
-            message=f'Element by {locator} did not appear')
+        self.wait.until(EC.visibility_of_element_located(locator),
+                        message=f'Element by {locator} did not appear')
 
     def wait_for_element_to_disappear(self, *locator):
         self.wait.until(EC.invisibility_of_element_located(locator),
-            message=f'Element by {locator} still shown on the page')
+                        message=f'Element by {locator} still shown on the page')
 
     def get_current_window(self):
         return self.driver.current_window_handle
@@ -67,18 +66,10 @@ class Page:
         self.driver.close()
         self.driver.quit()
 
-    def verify_text(self, expected_text, *locator):
-        actual_text = self.find_element(*locator).text
-        assert actual_text == expected_text, f'Expected {expected_text} did not match actual {actual_text}'
-
-    def verify_partial_text(self, expected_text, *locator):
-        actual_text = self.find_element(*locator).text
-        assert expected_text in actual_text, f'Expected {expected_text} not shown in actual {actual_text}'
-
     def verify_results_url(self, expected_url):
         current_url = self.driver.current_url
-        assert expected_url == current_url, f'Expected {expected_url} but got {current_url}'
+        assert expected_url == current_url, f'Expected "{expected_url}" but got "{current_url}"'
 
     def verify_partial_url(self, expected_partial_url):
         current_url = self.driver.current_url
-        assert expected_partial_url in current_url, f'Expected {expected_partial_url} but got {current_url}'
+        assert expected_partial_url in current_url, f'Expected "{expected_partial_url}" but got "{current_url}"'
