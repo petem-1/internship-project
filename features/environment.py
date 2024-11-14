@@ -6,19 +6,19 @@ from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver.chrome.options import Options
 
 from app.application import Application
+# from support.logger import logger
 
 # Command to run tests with Allure & Behave:
 # behave -f allure_behave.formatter:AllureFormatter -o test_results/ features/tests/target_search.feature
-
 
 
 def browser_init(context, scenario_name):
     """
     :param context: Behave context
     """
-    driver_path = ChromeDriverManager().install()
-    service = Service(driver_path)
-    context.driver = webdriver.Chrome(service=service)
+    # driver_path = ChromeDriverManager().install()
+    # service = Service(driver_path)
+    # context.driver = webdriver.Chrome(service=service)
 
     # driver_path = GeckoDriverManager().install()
     # service = Service(driver_path)
@@ -31,14 +31,15 @@ def browser_init(context, scenario_name):
     # service = Service(executable_path='put your path to driver file here')
     # context.driver = webdriver.Firefox(service=service)
 
-    ### HEADLESS MODE ####
-    # options = webdriver.ChromeOptions()
-    # options.add_argument('headless')
-    # service = Service(ChromeDriverManager().install())
-    # context.driver = webdriver.Chrome(
-    #     options=options,
-    #     service=service
-    # )
+    ## HEADLESS MODE ####
+    options = webdriver.ChromeOptions()
+    options.add_argument('headless')
+    options.add_argument('window-size=1920x1080')
+    service = Service(ChromeDriverManager().install())
+    context.driver = webdriver.Chrome(
+        options=options,
+        service=service
+    )
 
     ### BROWSERSTACK ###
     # Register for BrowserStack, then grab it from https://www.browserstack.com/accounts/settings
@@ -61,15 +62,23 @@ def browser_init(context, scenario_name):
     context.driver.wait = WebDriverWait(context.driver, timeout=10)
     context.app = Application(context.driver)
 
+
 def before_scenario(context, scenario):
-    print('\nStarted scenario: ', scenario.name)
+    # print('\nStarted scenario: ', scenario.name)
+    # logger.info(f'Started scenario: {scenario.name}')
     browser_init(context, scenario.name)
 
 
 def before_step(context, step):
     print('\nStarted step: ', step)
+    # logger.info(f'Started step: {step}')
+
+
 def after_step(context, step):
     if step.status == 'failed':
         print('\nStep failed: ', step)
+        # logger.error(f'Step failed: {step}')
+
+
 def after_scenario(context, feature):
     context.driver.quit()
