@@ -9,8 +9,8 @@ class ReellyFilterPage(Page):
     SECONDARY_OPTION = (By.CSS_SELECTOR, '[href="/secondary-listings"]')
     SECONDARY_VERIFY = (By.CSS_SELECTOR, '[href="/secondary-listings"]')
     FILTER_SELECT = (By.CSS_SELECTOR, "div.filter-button")
-    WANT_TO_BUY = (By.XPATH, "//div[@class='tag-text-filters' and text()='Want to buy']")
-    # (By.CSS_SELECTOR, '[wized="ListingTypeBuy"]')
+    WANT_TO_BUY = (By.CSS_SELECTOR, '[wized="ListingTypeBuy"]')
+    # (By.XPATH, "//div[@class='tag-text-filters' and text()='Want to buy']")
     APPLY_FILTER = (By.CSS_SELECTOR, "a.button-filter.w-button")
     VERIFY_WANT_TO_BUY = (By.CSS_SELECTOR, 'div[wized="saleTagMLS"]')
 
